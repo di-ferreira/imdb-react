@@ -11,16 +11,24 @@ const SlideToRight = keyframes`
         transform: translateX(-46.5rem);
     }
     to{
-        transform: translateX(-26.5rem);
+        transform: translateX(-5rem);
     }
 `;
 
 const Rotate = keyframes`
     from{
-        transform: rotate(0deg);
+       -webkit-transform-origin: center;
+        transform-origin: center;
+        -webkit-transform: rotate3d(0, 0, 1, -200deg);
+        transform: rotate3d(0, 0, 1, -200deg);
+        opacity: 0;
     }
     to{
-        transform: rotate(360deg);
+       -webkit-transform-origin: center;
+        transform-origin: center;
+        -webkit-transform: none;
+        transform: none;
+        opacity: 1;
     }
 `;
 
@@ -30,7 +38,8 @@ export const Container = styled.nav`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 0.8rem;
+    padding: 0.5rem 5rem;
+    margin-bottom: 0.5rem;
     font-size: 1.1rem;
 `;
 
@@ -47,12 +56,22 @@ export const Logo = styled(Link)`
 `;
 
 export const Icon = styled.span`
-    transform: rotate(360deg);
-    animation: ${Rotate} 0.3 ease-in-out;
+    display: none;
 
-    svg {
-        font-size: 1.5rem;
-        cursor: pointer;
+    @media (max-width: 800px) {
+        display: block;
+        transform: rotate(360deg);
+        -webkit-animation-name: ${Rotate};
+        animation-name: ${Rotate};
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+
+        svg {
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
     }
 `;
 
@@ -63,49 +82,97 @@ export const Menu = styled.div<{ open: boolean }>`
     justify-content: flex-end;
     width: 100%;
     height: 100%;
-    z-index: 20;
+    font-size: 1rem;
 
     ul {
-        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 50%;
+        height: 100%;
     }
 
     li {
         display: flex;
-        align-items: center;
-        width: 100%;
-        height: 1.5rem;
-        margin: 0.2rem 0;
-    }
-
-    a {
-        text-decoration: none;
-        color: ${colors.black};
-        transition: all 0.5s ease;
+        justify-content: center;
+        width: fit-content;
+        height: 100%;
+        padding: 0 1%;
+        border-top: solid ${colors.red} 0rem;
+        transition: background-color 0.3s ease;
 
         &:hover {
-            margin-left: 0.4rem;
+            border-top-width: 0.1rem;
+            background-color: rgba(${colors.whiteGray}, 0.7);
+            transition: background-color 0.3s ease;
+        }
+
+        a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: ${colors.black};
+            height: 100%;
             font-weight: bold;
-            transition: all 0.5s ease;
+            transition: all 0.3s ease;
+
+            &:hover {
+                color: ${colors.red};
+                transition: all 0.3s ease;
+            }
         }
     }
 
     @media (max-width: 800px) {
         ul {
-            position: absolute;
-            display: ${(props) => (props.open ? "flex" : "none")};
-            flex-direction: column;
+            display: none;
+        }
+    }
+`;
+
+export const MenuMobile = styled.ul<{ open: boolean }>`
+    display: none;
+
+    @media (max-width: 800px) {
+        position: absolute;
+        display: ${(props) => (props.open ? "flex" : "none")};
+        flex-direction: column;
+        align-items: center;
+        padding: 4% 3.5% 2% 3.5%;
+        width: 100%;
+        max-width: 15rem;
+        height: 20rem;
+        top: 3rem;
+        transform: translateX(-5rem);
+        animation: ${SlideToRight} 0.3s ease-in-out normal;
+        border-radius: 0.4rem;
+        border: solid rgb(${colors.whiteGray}) 0.1rem;
+        background-color: ${colors.white};
+        box-shadow: 0px 5px 3px -2px rgba(0, 0, 0, 0.3);
+        transition: all 0.5s ease;
+
+        li {
+            display: flex;
             align-items: center;
-            padding: 4% 3.5% 2% 3.5%;
             width: 100%;
-            max-width: 15rem;
-            height: 20rem;
-            top: 2.5rem;
-            transform: translateX(-26.5rem);
-            animation: ${SlideToRight} 0.3s ease-in-out normal;
-            border-radius: 0.4rem;
-            background-color: rgb(${colors.whiteGray});
-            box-shadow: 0px 5px 3px -2px rgba(0, 0, 0, 0.3);
-            transition: all 0.5s ease;
+            height: 1.7rem;
+            margin: 0.2rem 0;
+
+            a {
+                text-decoration: none;
+                color: ${colors.black};
+                font-weight: bold;
+                width: 100%;
+                height: 100%;
+                border-top: solid ${colors.red} 0rem;
+                transition: all 0.3s ease;
+
+                &:hover {
+                    border-top-width: 0.1rem;
+                    transition: all 0.3s ease;
+                    background-color: rgba(${colors.whiteGray}, 0.7);
+                }
+            }
         }
     }
 `;

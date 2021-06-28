@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import { Link } from "react-router-dom";
-import { Container, Logo, Menu, Icon } from "./styles";
+import { Container, Logo, Menu, MenuMobile, Icon } from "./styles";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 interface NavBarProps {
@@ -21,16 +21,28 @@ function NavBar({ children }: NavBarProps) {
                 <strong>imd</strong>b{" "}
             </Logo>
 
+            <MenuMobile open={mobileMenuOpen}>
+                <li>
+                    <Link to="/">Home</Link>
+                </li>
+                <li>
+                    <Link to="/">My Favorites</Link>
+                </li>
+                <li>
+                    <Link to="/">News</Link>
+                </li>
+            </MenuMobile>
+
             <Menu open={mobileMenuOpen}>
                 <Icon onClick={() => openMobileMenu()}>
                     {mobileMenuOpen ? <FaTimes /> : <FaBars />}
                 </Icon>
                 <ul>
                     <li>
-                        <Link to="/">Movies</Link>
+                        <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/">TV Shows</Link>
+                        <Link to="/">My Favorites</Link>
                     </li>
                     <li>
                         <Link to="/">News</Link>
