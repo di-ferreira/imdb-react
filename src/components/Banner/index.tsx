@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import { Container } from "./styles";
+import { Container, Slider } from "./styles";
 
 interface BannerProps {
     children?: ReactNode;
@@ -9,8 +9,9 @@ interface BannerProps {
 function Banner({ children }: BannerProps) {
     return (
         <Container>
-            <h1>Banner</h1>
-            {children}
+            <Slider>
+                <h1>Banner</h1>
+            </Slider>
         </Container>
     );
 }
