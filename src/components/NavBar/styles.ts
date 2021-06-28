@@ -135,6 +135,7 @@ export const MenuMobile = styled.ul<{ open: boolean }>`
 
     @media (max-width: 800px) {
         position: absolute;
+        z-index: 20;
         display: ${(props) => (props.open ? "flex" : "none")};
         flex-direction: column;
         align-items: center;
