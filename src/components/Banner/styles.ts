@@ -1,20 +1,21 @@
 import styled from "styled-components";
-import { colors } from "../../colors";
 
 export const Container = styled.div`
-    width: 100%;
+    position: relative;
+    overflow: hidden;
+    width: 100vw;
     height: 25rem;
 `;
 
-export const Slider = styled.div`
-    position: relative;
-    display: flex;
+export const SliderContent = styled.div<{ transform: string }>`
+    display: block;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    background-image: url("https://image.tmdb.org/t/p/original/z2UtGA1WggESspi6KOXeo66lvLx.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    background-color: ${colors.black};
+    transform: translateX(${(props) => props.transform});
+`;
+
+export const SliderInner = styled.div<{ width: string }>`
+    display: flex;
+    width: ${(props) => props.width};
+    height: 100%;
 `;

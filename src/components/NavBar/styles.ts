@@ -38,7 +38,7 @@ export const Container = styled.nav`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 5rem;
+    padding: 0.5rem 2.5rem;
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
 `;
