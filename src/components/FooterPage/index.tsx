@@ -40,7 +40,7 @@ function FooterPage({ children }: FooterPageProps) {
             <Viewed>
                 <Title>Recentemente vistos</Title>
                 <ul>
-                    {recentViews.map((v: any) => (
+                    {recentViews.map((v: any, i: number) => (
                         <li key={v.id}>
                             <img
                                 src={
@@ -50,7 +50,9 @@ function FooterPage({ children }: FooterPageProps) {
                                 alt={v.original_name}
                                 width="50"
                             />
-                            {v.lenght}.{v.original_name}
+                            <p>
+                                {i + 1}. {v.original_name}
+                            </p>
                         </li>
                     ))}
                 </ul>

@@ -13,8 +13,6 @@ function Main({ children }: MainProps) {
         <Container>
             <NavBar />
             <Banner />
-            <Banner />
-            <Banner />
             <FooterPage />
         </Container>
     );
