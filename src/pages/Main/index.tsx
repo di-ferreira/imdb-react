@@ -12,7 +12,6 @@ function Main({ children }: MainProps) {
         <Container>
             <NavBar />
             <Banner />
-            <h1>Main</h1>
         </Container>
     );
 }

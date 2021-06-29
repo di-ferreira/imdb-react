@@ -1,32 +1,21 @@
 import React, { ReactNode } from "react";
 
-import { Container, Slider, SlideFooter, SlideNavigation } from "./styles";
-
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Container, Slider, SliderInfo } from "./styles";
 
 interface SlideProps {
     children?: ReactNode;
     title: string;
-    director: string;
     image: string;
-    prevSlide: (e: React.MouseEventHandler<SVGElement, MouseEvent>) => void;
-    nextSlide?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-function Slide({ director, image, title, prevSlide, nextSlide }: SlideProps) {
+function Slide({ image, title }: SlideProps) {
     return (
         <Container>
             <Slider backgroundUrl={image}>
-                <h1>{title}</h1>
-                <h2>{director}</h2>
-                <p>Em Breve nos cinemas</p>
-                <SlideFooter>
-                    <SlideNavigation>
-                        <FaChevronLeft onClick={(e) => prevSlide(e)} />
-                        <FaChevronRight />
-                    </SlideNavigation>
-                    <a href="/">Sobre este filme</a>
-                </SlideFooter>
+                <SliderInfo>
+                    <h1>{title}</h1>
+                    <p>Em Breve nos cinemas</p>
+                </SliderInfo>
             </Slider>
         </Container>
     );

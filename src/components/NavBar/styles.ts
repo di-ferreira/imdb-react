@@ -144,7 +144,7 @@ export const MenuMobile = styled.ul<{ open: boolean }>`
         max-width: 15rem;
         height: 20rem;
         top: 3rem;
-        transform: translateX(-5rem);
+        transform: translateX(-3rem);
         animation: ${SlideToRight} 0.3s ease-in-out normal;
         border-radius: 0.4rem;
         border: solid rgb(${colors.whiteGray}) 0.1rem;

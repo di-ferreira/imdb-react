@@ -1,33 +1,39 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import api from "../../services/api";
 import Slide from "../Slide";
 
-import { Container, SliderContent, SliderInner } from "./styles";
+import {
+    Container,
+    SliderContent,
+    SliderInner,
+    SlideFooter,
+    SlideNavigation,
+    FaChevronLeftIcon,
+    FaChevronRightIcon,
+} from "./styles";
 
 interface BannerProps {
     children?: ReactNode;
 }
 
 function Banner({ children }: BannerProps) {
-    const [items] = useState([
-        {
-            title: "Um Lugar Silencioso II",
-            director: "Jhon Krasinsk",
-            imageUrl:
-                "https://image.tmdb.org/t/p/original/z2UtGA1WggESspi6KOXeo66lvLx.jpg",
-        },
-        {
-            title: "Luca",
-            director: "John Lester",
-            imageUrl:
-                "https://image.tmdb.org/t/p/original/z2UtGA1WggESspi6KOXeo66lvLx.jpg",
-        },
-        {
-            title: "Din e o Dragão Genial",
-            director: "Sonny",
-            imageUrl:
-                "https://image.tmdb.org/t/p/original/z2UtGA1WggESspi6KOXeo66lvLx.jpg",
-        },
-    ]);
+    const [items, setItems] = useState<any>([]);
+
+    useEffect(() => {
+        api.get(
+            "/discover/movie?language=pt-BR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
+        ).then((response: { data: any }) => {
+            const itemsData = [];
+
+            for (let i = 0; i < 10; i++) {
+                itemsData.push(response.data.results[i]);
+            }
+
+            console.log(itemsData);
+
+            setItems(itemsData);
+        });
+    }, []);
 
     const [currentSlide, setCurrentSlide] = useState(0);
     const slideLength = items.length;
@@ -44,20 +50,33 @@ function Banner({ children }: BannerProps) {
         );
     };
 
+    // useEffect(() => {
+    //     const autoPlay = setInterval(() => {
+    //         nextSlide();
+    //     }, 5000);
+    //     return () => clearInterval(autoPlay);
+    // });
+
     return (
         <Container>
             <SliderContent transform={"-" + currentSlide * 100 + "%"}>
                 <SliderInner width={slideLength * 100 + "%"}>
-                    {items.map((s, i) => (
+                    {items.map((img: any) => (
                         <Slide
-                            key={i}
-                            title={s.title}
-                            director={s.director}
-                            image={s.imageUrl}
-                            prevSlide={() => prevSlide()}
-                            nextSlide={() => nextSlide()}
+                            key={img.id}
+                            title={img.title}
+                            image={
+                                "https://image.tmdb.org/t/p/original" +
+                                img.backdrop_path
+                            }
                         />
                     ))}
+                    <SlideFooter transform={currentSlide * 100 + "%"}>
+                        <SlideNavigation>
+                            <FaChevronLeftIcon onClick={() => prevSlide()} />
+                            <FaChevronRightIcon onClick={() => nextSlide()} />
+                        </SlideNavigation>
+                    </SlideFooter>
                 </SliderInner>
             </SliderContent>
         </Container>
