@@ -19,20 +19,24 @@ interface BannerProps {
 function Banner({ children }: BannerProps) {
     const [items, setItems] = useState<any>([]);
 
+    const getItems = async () => {
+        await api
+            .get(
+                "/discover/movie?language=pt-BR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
+            )
+            .then((response: { data: any }) => {
+                const itemsData = [];
+
+                for (let i = 0; i < 10; i++) {
+                    itemsData.push(response.data.results[i]);
+                }
+
+                setItems(itemsData);
+            });
+    };
+
     useEffect(() => {
-        api.get(
-            "/discover/movie?language=pt-BR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
-        ).then((response: { data: any }) => {
-            const itemsData = [];
-
-            for (let i = 0; i < 10; i++) {
-                itemsData.push(response.data.results[i]);
-            }
-
-            console.log(itemsData);
-
-            setItems(itemsData);
-        });
+        getItems();
     }, []);
 
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -50,12 +54,12 @@ function Banner({ children }: BannerProps) {
         );
     };
 
-    // useEffect(() => {
-    //     const autoPlay = setInterval(() => {
-    //         nextSlide();
-    //     }, 5000);
-    //     return () => clearInterval(autoPlay);
-    // });
+    useEffect(() => {
+        const autoPlay = setInterval(() => {
+            nextSlide();
+        }, 5000);
+        return () => clearInterval(autoPlay);
+    });
 
     return (
         <Container>

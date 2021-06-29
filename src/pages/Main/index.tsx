@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import Banner from "../../components/Banner";
+import FooterPage from "../../components/FooterPage";
 import NavBar from "../../components/NavBar";
 import { Container } from "./styles";
 
@@ -12,6 +13,9 @@ function Main({ children }: MainProps) {
         <Container>
             <NavBar />
             <Banner />
+            <Banner />
+            <Banner />
+            <FooterPage />
         </Container>
     );
 }
