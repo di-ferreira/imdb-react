@@ -34,6 +34,7 @@ export const Viewed = styled.div`
             font-size: 0.8rem;
         }
     }
+
 `;
 
 export const SiteIndex = styled.div`
@@ -45,7 +46,7 @@ export const SiteIndex = styled.div`
 
     ul {
         width: 100%;
-        
+
         li {
             width: 100%;
             display: flex;
@@ -68,7 +69,22 @@ export const SiteIndex = styled.div`
 export const Social = styled.div`
     display: flex;
     flex-direction: column;
-    flex: 1;
+    flex: 2 1 1;
+    font-size: 1.1rem;
+`;
+
+export const Icons = styled.div`
+        display:flex;
+        width:100%;
+        margin-bottom: 0.5rem;
+        align-items:center;
+        justify-content:space-between;
+
+        svg{
+            margin-right:0.5rem;
+            font-size:1.8rem;
+        }
+
 `;
 
 export const Title = styled.h1`

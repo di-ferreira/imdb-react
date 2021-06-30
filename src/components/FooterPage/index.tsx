@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 
-import { Container, Viewed, SiteIndex, Social, Title } from "./styles";
+import { Container, Viewed, SiteIndex, Social, Icons, Title } from "./styles";
 
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -24,8 +24,6 @@ function FooterPage({ children }: FooterPageProps) {
                 for (let i = 0; i < 5; i++) {
                     itemsData.push(res.data.results[i]);
                 }
-
-                console.log(itemsData);
 
                 setRecentViews(itemsData);
             });
@@ -72,9 +70,12 @@ function FooterPage({ children }: FooterPageProps) {
                 </ul>
             </SiteIndex>
             <Social>
-                <FaFacebook />
-                <FaTwitter />
-                <FaInstagram />
+                <Icons>
+                    <FaFacebook />
+                    <FaTwitter />
+                    <FaInstagram />
+                </Icons>
+
                 <p>
                     Copyright imdb.com, INC <br />
                     Conditions of Use <br />
