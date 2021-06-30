@@ -26,7 +26,7 @@ function NavBar({ children }: NavBarProps) {
                     <Link to="/">Home</Link>
                 </li>
                 <li>
-                    <Link to="/">My Favorites</Link>
+                    <Link to="/movie">My Favorites</Link>
                 </li>
                 <li>
                     <Link to="/">News</Link>
@@ -42,7 +42,7 @@ function NavBar({ children }: NavBarProps) {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/">My Favorites</Link>
+                        <Link to="/movie">My Favorites</Link>
                     </li>
                     <li>
                         <Link to="/">News</Link>

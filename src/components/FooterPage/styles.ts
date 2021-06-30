@@ -4,17 +4,20 @@ import { colors } from "../../colors";
 export const Container = styled.div`
     display: flex;
     align-items: stretch;
+    justify-content: space-around;
     flex-wrap: wrap;
     width: 100%;
     padding: 2.5rem 5rem;
     color: ${colors.white};
     background-color: ${colors.dark};
+    @media (max-width: 800px) {
+        justify-content: center;
+    }
 `;
 
 export const Viewed = styled.div`
     display: flex;
     flex-direction: column;
-    flex: 2 1 2rem;
     margin-right: 1rem;
 
     ul {
@@ -35,12 +38,15 @@ export const Viewed = styled.div`
         }
     }
 
+    @media (max-width: 800px) {
+        max-width: 100%;
+        margin-bottom: 2rem;
+    }
 `;
 
 export const SiteIndex = styled.div`
     display: flex;
     flex-direction: column;
-    flex: 2 1 2rem;
     margin-right: 1rem;
     height: 100%;
 
@@ -64,6 +70,10 @@ export const SiteIndex = styled.div`
             }
         }
     }
+    @media (max-width: 800px) {
+        max-width: 100%;
+        margin-bottom: 2rem;
+    }
 `;
 
 export const Social = styled.div`
@@ -71,20 +81,23 @@ export const Social = styled.div`
     flex-direction: column;
     flex: 2 1 1;
     font-size: 1.1rem;
+
+    @media (max-width: 800px) {
+        margin-top: 1rem;
+    }
 `;
 
 export const Icons = styled.div`
-        display:flex;
-        width:100%;
-        margin-bottom: 0.5rem;
-        align-items:center;
-        justify-content:space-between;
+    display: flex;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
 
-        svg{
-            margin-right:0.5rem;
-            font-size:1.8rem;
-        }
-
+    svg {
+        margin-right: 0.5rem;
+        font-size: 1.8rem;
+    }
 `;
 
 export const Title = styled.h1`

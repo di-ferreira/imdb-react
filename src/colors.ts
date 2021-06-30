@@ -6,4 +6,8 @@ export const colors = {
     white: "#ffffff",
     whiteGray: "230,230,230",
     blackRgb: "0, 0, 0",
+    pink: "#FC427B",
+    pinkRGB: "252, 66, 123",
+    green: "#2ed573",
+    greenRGB: "46, 213, 115",
 };

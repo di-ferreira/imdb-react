@@ -3,7 +3,7 @@ import Banner from "../../components/Banner";
 import FooterPage from "../../components/FooterPage";
 import NavBar from "../../components/NavBar";
 import { Container } from "./styles";
-import SliderPosters from '../../components/SliderPosters/index';
+import SliderPosters from "../../components/SliderPosters/index";
 import api from "../../services/api";
 
 interface MainProps {
@@ -11,42 +11,42 @@ interface MainProps {
 }
 
 function Main({ children }: MainProps) {
-
     const [popularTVData, setPopularTVData] = useState<any>([]);
     const [popularMovieData, setPopularMovieData] = useState<any>([]);
 
-const getPopularTV = async ()=>{
-    await api.get("/tv/popular?language=pt-BR&page=1")
-             .then((res:any)=>{
-                setPopularTVData(res.data.results)
-             });
-}
-const getPopularMovie = async ()=>{
-    await api.get("/movie/popular?language=pt-BR&page=1")
-             .then((res:any)=>{
-
-                setPopularMovieData(res.data.results)
+    const getPopularTV = async () => {
+        await api.get("/tv/popular?language=pt-BR&page=1").then((res: any) => {
+            setPopularTVData(res.data.results);
+        });
+    };
+    const getPopularMovie = async () => {
+        await api
+            .get("/movie/popular?language=pt-BR&page=1")
+            .then((res: any) => {
+                setPopularMovieData(res.data.results);
                 /*console.log(res.data.results)*/
-             });
-}
+            });
+    };
 
-useEffect(() => {
-    getPopularMovie();
-    getPopularTV();
-}, [])
+    useEffect(() => {
+        getPopularMovie();
+        getPopularTV();
+    }, []);
 
     return (
         <Container>
             <NavBar />
             <Banner />
             <SliderPosters
-            data={popularTVData}
+                data={popularTVData}
                 title="Os mais Populares"
-                subtitle="Séries de TV" />
+                subtitle="Séries de TV"
+            />
             <SliderPosters
-            data={popularMovieData}
+                data={popularMovieData}
                 title="Os mais Populares"
-                subtitle="Filmes" />
+                subtitle="Filmes"
+            />
             <FooterPage />
         </Container>
     );
