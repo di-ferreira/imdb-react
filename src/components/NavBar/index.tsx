@@ -23,13 +23,13 @@ function NavBar({ children }: NavBarProps) {
 
             <MenuMobile open={mobileMenuOpen}>
                 <li>
-                    <Link to="/">Home</Link>
+                    <Link to="/">Início</Link>
                 </li>
                 <li>
-                    <Link to="/movie">My Favorites</Link>
+                    <Link to="/favorites">Meus Favoritos</Link>
                 </li>
                 <li>
-                    <Link to="/">News</Link>
+                    <Link to="/movie">Filmes</Link>
                 </li>
             </MenuMobile>
 
@@ -39,13 +39,13 @@ function NavBar({ children }: NavBarProps) {
                 </Icon>
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                        <Link to="/">Início</Link>
                     </li>
                     <li>
-                        <Link to="/movie">My Favorites</Link>
+                        <Link to="/favorites">Meus Favoritos</Link>
                     </li>
                     <li>
-                        <Link to="/">News</Link>
+                        <Link to="/movie">Filmes</Link>
                     </li>
                 </ul>
             </Menu>

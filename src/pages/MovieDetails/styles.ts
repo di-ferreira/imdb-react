@@ -64,7 +64,7 @@ export const TopInformation = styled.div`
     justify-content: space-between;
     width: 100%;
     margin: 0 0 0.5rem 0;
-    text-shadow: 0.2rem 0.2rem 0.2rem 0.2rem rgba(${colors.blackRgb}, 0.7);
+    text-shadow: -2px 1px 1px rgba(${colors.blackRgb}, 0.3);
     div {
         display: flex;
         align-items: baseline;
@@ -187,7 +187,7 @@ export const CastList = styled.div`
         text-transform: capitalize;
         font-size: 1.6rem;
         color: ${colors.red};
-        text-shadow: 1rem 1rem 0.2rem 0.2rem rgba(${colors.blackRgb}, 0.7);
+        text-shadow: -2px 1px 1px rgba(${colors.blackRgb}, 0.3);
     }
 
     ul {
@@ -247,7 +247,7 @@ export const MovieTrailer = styled.div`
         text-transform: capitalize;
         font-size: 1.6rem;
         color: ${colors.red};
-        text-shadow: 1rem 1rem 0.2rem 0.2rem rgba(${colors.blackRgb}, 0.7);
+        text-shadow: -2px 1px 1px rgba(${colors.blackRgb}, 0.3);
     }
 `;
 

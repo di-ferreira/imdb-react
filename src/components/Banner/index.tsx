@@ -22,7 +22,7 @@ function Banner({ children }: BannerProps) {
     const getItems = async () => {
         await api
             .get(
-                "/discover/movie?language=pt-BR&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
+                "/discover/movie?sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate"
             )
             .then((response: { data: any }) => {
                 const itemsData = [];

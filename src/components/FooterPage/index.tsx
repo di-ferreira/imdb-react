@@ -16,7 +16,7 @@ function FooterPage({ children }: FooterPageProps) {
     const getVieweds = async () => {
         await api
             .get(
-                "/discover/tv?language=pt-br&sort_by=popularity.desc&page=1&timezone=America%2FNew_York&include_null_first_air_dates=false&with_watch_monetization_types=flatrate"
+                "/discover/tv?sort_by=popularity.desc&page=1&timezone=America%2FNew_York&include_null_first_air_dates=false&with_watch_monetization_types=flatrate"
             )
             .then((res: { data: any }) => {
                 const itemsData = [];
@@ -59,13 +59,13 @@ function FooterPage({ children }: FooterPageProps) {
                 <Title>Mapa do site</Title>
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                        <Link to="/">Início</Link>
                     </li>
                     <li>
-                        <Link to="/">My Favorites</Link>
+                        <Link to="/favorites">Meus Favoritos</Link>
                     </li>
                     <li>
-                        <Link to="/">News</Link>
+                        <Link to="/movie">Filmes</Link>
                     </li>
                 </ul>
             </SiteIndex>

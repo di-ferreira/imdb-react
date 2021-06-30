@@ -15,17 +15,15 @@ function Main({ children }: MainProps) {
     const [popularMovieData, setPopularMovieData] = useState<any>([]);
 
     const getPopularTV = async () => {
-        await api.get("/tv/popular?language=pt-BR&page=1").then((res: any) => {
+        await api.get("/tv/popular?page=1").then((res: any) => {
             setPopularTVData(res.data.results);
         });
     };
     const getPopularMovie = async () => {
-        await api
-            .get("/movie/popular?language=pt-BR&page=1")
-            .then((res: any) => {
-                setPopularMovieData(res.data.results);
-                /*console.log(res.data.results)*/
-            });
+        await api.get("/movie/popular?page=1").then((res: any) => {
+            setPopularMovieData(res.data.results);
+            /*console.log(res.data.results)*/
+        });
     };
 
     useEffect(() => {
