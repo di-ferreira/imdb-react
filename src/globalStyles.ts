@@ -41,7 +41,7 @@ const GlobalStyle = createGlobalStyle`
   body #root{
     width: 100vw;
     height: 100vh;
-    overflow: auto;
+    overflow:hidden auto;
   }
 
   body {

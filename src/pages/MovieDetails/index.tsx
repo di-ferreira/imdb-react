@@ -10,18 +10,20 @@ interface MovieDetailsProps {
 }
 
 function MovieDetails({ children }: MovieDetailsProps) {
-    // const [movieDetails,setMovieDetails] = useState<any>([]);
-    // const [movieCredits,setMovieCredits] = useState<any>([]);
+    const [movieDetails,setMovieDetails] = useState<any>({});
+    const [movieCredits,setMovieCredits] = useState<any>({});
 
 const getMovieDetails = async ()=>{
     await api.get("/movie/508943?language=pt-BR").then((res:any)=>{
         console.log(res.data);
+        setMovieDetails(res.data);
     });
 };
 
 const getMovieCredits = async ()=>{
     await api.get("/movie/508943/credits?language=pt-BR").then((res:any)=>{
         console.log(res.data);
+        setMovieCredits(res.data);
     });
 };
 
@@ -33,7 +35,7 @@ useEffect(() => {
   return (
     <Container>
         <NavBar/>
-        <Content>
+        <Content imgUrl={"https://image.tmdb.org/t/p/original"+movieDetails.backdrop_path}>
             <h1>MovieDetails</h1>
 
         </Content>
