@@ -24,3 +24,5 @@ export const ContentPage = styled.div`
     box-shadow: -5px 5px 3px -2px rgba(0, 0, 0, 0.3);
     background-color: rgb(${colors.whiteGray});
 `;
+
+export const SearchBox = styled.div``;
