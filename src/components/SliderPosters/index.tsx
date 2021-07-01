@@ -25,7 +25,7 @@ function SliderPosters({ title, subtitle, data }: SliderPostersProps) {
             <ul>
                 {data.map((s: any) => (
                     <li key={s.id}>
-                        <Link to="/">
+                        <Link to={`/movie/${s.id}`}>
                             <Poster
                                 data={
                                     s.first_air_date

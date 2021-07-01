@@ -24,7 +24,6 @@ import {
 import { formatLocalDate } from '../../utils/format';
 import Loading from "../../components/Loading";
 import { FaSearch, FaAngleDoubleLeft, FaAngleLeft, FaAngleDoubleRight, FaAngleRight } from 'react-icons/fa';
-import { Link } from "react-router-dom";
 
 interface SearchProps {
     children?: ReactNode;
@@ -143,7 +142,6 @@ function Search({ children }: SearchProps) {
                 </SearchBox>
                 <ContentPage>
                     {movies.map((mov) => (
-                        <Link to={"/movie/" + mov.id}>
                         <MovieResult
                             key={mov.id}
                             id={mov.id}
@@ -153,7 +151,6 @@ function Search({ children }: SearchProps) {
                             favorite={false}
                             release_date={mov.release_date}
                         />
-                        </Link>
                     ))}
             <Pagination>
                 <FirstPage onClick={():void=>(setCurrentPage(1))}>
