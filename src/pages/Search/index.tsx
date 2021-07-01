@@ -21,18 +21,23 @@ import {
     NextPage,
     LastPage,
 } from "./styles";
-import { formatLocalDate } from '../../utils/format';
+import { formatLocalDate } from "../../utils/format";
 import Loading from "../../components/Loading";
-import { FaSearch, FaAngleDoubleLeft, FaAngleLeft, FaAngleDoubleRight, FaAngleRight } from 'react-icons/fa';
-
+import {
+    FaSearch,
+    FaAngleDoubleLeft,
+    FaAngleLeft,
+    FaAngleDoubleRight,
+    FaAngleRight,
+} from "react-icons/fa";
 interface SearchProps {
     children?: ReactNode;
 }
 
-interface paginationProps{
-    page:number;
-    total_pages:number;
-    total_results:number;
+interface paginationProps {
+    page: number;
+    total_pages: number;
+    total_results: number;
 }
 
 function Search({ children }: SearchProps) {
@@ -41,91 +46,103 @@ function Search({ children }: SearchProps) {
     const [query, setQuery] = useState<string>("");
     const [error, setError] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState<number>(1);
+
     const [totalPage, setTotalPage] = useState<number>(0);
     const [pagination, setPagination] = useState<paginationProps>();
 
-
-    const searchMovie = async ()=>{
+    const searchMovie = async () => {
         setLoad(true);
-         api
-                .get(`/search/movie?page=${currentPage}&query=${query}`)
-                .then(async (res:any)=>(
+        api.get(`/search/movie?page=${currentPage}&query=${query}`)
+            .then(
+                async (res: any) =>
                     await res.data.results.map((m: any) => {
-                        m.release_date= formatLocalDate(m.release_date, "yyyy");
+                        m.release_date = formatLocalDate(
+                            m.release_date,
+                            "yyyy"
+                        );
 
                         setPagination({
-                            page:res.data.page,
-                            total_pages:res.data.total_pages,
-                            total_results:res.data.total_results
+                            page: res.data.page,
+                            total_pages: res.data.total_pages,
+                            total_results: res.data.total_results,
                         });
 
                         setTotalPage(res.data.total_pages);
 
                         setMovies(res.data.results);
-                        console.log(res.data.results);
-
                         return;
                     })
-                ))
-                .finally(
-                    async ()=>setLoad(false)
-                );
+            )
+            .finally(async () => setLoad(false));
     };
 
-    const loadFirstMovie = async ()=>{
+    const loadFirstMovie = async () => {
         setLoad(true);
-         api
-                .get(`/movie/popular?page=${currentPage}`)
-                .then(async (res:any)=>(
+
+        api.get(`/movie/popular?page=${currentPage}`)
+            .then(
+                async (res: any) =>
                     await res.data.results.map((m: any) => {
-                        m.release_date= formatLocalDate(m.release_date, "yyyy");
+                        m.release_date = formatLocalDate(
+                            m.release_date,
+                            "yyyy"
+                        );
 
                         setPagination({
-                            page:res.data.page,
-                            total_pages:res.data.total_pages,
-                            total_results:res.data.total_results
+                            page: res.data.page,
+                            total_pages: res.data.total_pages,
+                            total_results: res.data.total_results,
                         });
 
                         setMovies(res.data.results);
 
                         setTotalPage(res.data.total_pages);
 
-                        console.log(res.data);
                         return;
                     })
-                ))
-                .finally(
-                    async ()=>setLoad(false)
-                );
+            )
+            .finally(async () => setLoad(false));
     };
 
-    const clickBuscar = ():void =>{
-        if(query !== ""){
+    const clickBuscar = (): void => {
+        if (query !== "") {
+            localStorage.setItem("@IMDB_QUERY_MOVIES", query);
             setError(false);
             searchMovie();
             setQuery("");
-        }else{
+        } else {
             setError(true);
         }
     };
 
-    const fcNextPage = () =>{currentPage + 1 >= totalPage ? setCurrentPage(1):setCurrentPage(currentPage + 1)};
+    const fcNextPage = () => {
+        currentPage + 1 >= totalPage
+            ? setCurrentPage(1)
+            : setCurrentPage(currentPage + 1);
+    };
 
-    const fcPrevPage = ():void =>{currentPage - 1 <= 1 ? setCurrentPage(1):setCurrentPage(currentPage - 1)};
-
+    const fcPrevPage = (): void => {
+        currentPage - 1 <= 1
+            ? setCurrentPage(1)
+            : setCurrentPage(currentPage - 1);
+    };
 
     useEffect(() => {
         loadFirstMovie();
+        const localQuery = localStorage.getItem("@IMDB_QUERY_MOVIES");
+        if (localQuery) {
+            setQuery(localQuery.toString);
+        }
+        console.log(localQuery);
     }, []);
 
-     useEffect(() => {
-         if(query!==""){
-             searchMovie()
-         }else{
+    useEffect(() => {
+        if (query !== "") {
+            searchMovie();
+        } else {
             loadFirstMovie();
         }
     }, [currentPage]);
-
 
     return (
         <Container>
@@ -133,11 +150,26 @@ function Search({ children }: SearchProps) {
             <NavBar />
             <ContainerPage>
                 <SearchBox>
-                {error? <ErrorSearch>Caixa de busca vazia, favor preencher!</ErrorSearch>:""}
-                <label>Buscar filmes</label>
-                    <input type="text" value={query} placeholder="Digite a sua busca de filme" onChange={(e)=>(setQuery(e.target.value))} />
-                    <button onClick={()=>{clickBuscar()}}>
-                      <FaSearch/>
+                    {error ? (
+                        <ErrorSearch>
+                            Caixa de busca vazia, favor preencher!
+                        </ErrorSearch>
+                    ) : (
+                        ""
+                    )}
+                    <label>Buscar filmes</label>
+                    <input
+                        type="text"
+                        value={query}
+                        placeholder="Digite a sua busca de filme"
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+                    <button
+                        onClick={() => {
+                            clickBuscar();
+                        }}
+                    >
+                        <FaSearch />
                     </button>
                 </SearchBox>
                 <ContentPage>
@@ -152,47 +184,38 @@ function Search({ children }: SearchProps) {
                             release_date={mov.release_date}
                         />
                     ))}
-            <Pagination>
-                <FirstPage onClick={():void=>(setCurrentPage(1))}>
-                    <FaAngleDoubleLeft/>
-                </FirstPage>
+                    <Pagination>
+                        <FirstPage onClick={(): void => setCurrentPage(1)}>
+                            <FaAngleDoubleLeft />
+                        </FirstPage>
 
-                <PrevPage onClick={():void=>(fcPrevPage())}>
-                    <FaAngleLeft/>
-                </PrevPage>
+                        <PrevPage onClick={(): void => fcPrevPage()}>
+                            <FaAngleLeft />
+                        </PrevPage>
 
-<InfoPage>
+                        <InfoPage>
+                            <strong>{currentPage}</strong>
+                            de
+                            <strong>{pagination?.total_pages}</strong>
+                        </InfoPage>
 
-                <strong>
-                    {currentPage}
-                </strong>
+                        <InfoRegisters>
+                            total de registros
+                            <strong>{pagination?.total_results}</strong>
+                        </InfoRegisters>
 
-                 de
+                        <NextPage onClick={(): void => fcNextPage()}>
+                            <FaAngleRight />
+                        </NextPage>
 
-                 <strong>
-                    {pagination?.total_pages}
-                 </strong>
-</InfoPage>
-
-<InfoRegisters>
-                 total de registros
-
-                <strong>
-                    {pagination?.total_results}
-                </strong>
-
-</InfoRegisters>
-
-
-                <NextPage onClick={():void=>(fcNextPage())}>
-                    <FaAngleRight/>
-                </NextPage>
-
-                <LastPage  onClick={():void=>(setCurrentPage(pagination?.total_pages || 1))}>
-                    <FaAngleDoubleRight/>
-                </LastPage>
-
-            </Pagination>
+                        <LastPage
+                            onClick={(): void =>
+                                setCurrentPage(pagination?.total_pages || 1)
+                            }
+                        >
+                            <FaAngleDoubleRight />
+                        </LastPage>
+                    </Pagination>
                 </ContentPage>
             </ContainerPage>
             <FooterPage />
