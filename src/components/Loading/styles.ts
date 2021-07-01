@@ -20,8 +20,8 @@ const Ripple = keyframes`
     }
 `;
 
-export const Container = styled.div`
-    display: flex;
+export const Container = styled.div<{visible:boolean}>`
+    display: ${(props)=>(props.visible ? "flex": "none" )};
     align-items: center;
     justify-content: center;
     width: 100vw;

@@ -4,11 +4,12 @@ import { Container, LoadingAnimation } from './styles';
 
 interface LoadingProps {
   children?: ReactNode;
+  visible:boolean
 }
 
-function Loading({ children }: LoadingProps) {
+function Loading({ children, visible }: LoadingProps) {
   return (
-    <Container>
+    <Container visible={visible}>
         <LoadingAnimation>
             Loading
         </LoadingAnimation>

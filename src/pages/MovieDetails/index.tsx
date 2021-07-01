@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ReactNode, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { FaHeart, FaRegHeart, FaShareAlt } from "react-icons/fa";
 import FooterPage from "../../components/FooterPage";
 import NavBar from "../../components/NavBar";
@@ -32,14 +34,23 @@ interface MovieDetailsProps {
     children?: ReactNode;
 }
 
+interface IdParam{
+    id:string;
+}
+
 function MovieDetails({ children }: MovieDetailsProps) {
+        //captura id do filme
+    const dataParam = useParams<IdParam>();
+    const id = dataParam.id;
+
     const [movieDetails, setMovieDetails] = useState<any>({});
     const [movieGenres, setMovieGenres] = useState<any>([]);
     const [movieCast, setMovieCast] = useState<any>([]);
     const [movieTrailer, setMovieTrailer] = useState<any>([]);
 
+
     const getMovieDetails = async () => {
-        await api.get("/movie/508943?language=pt-BR").then((res: any) => {
+        await api.get(`/movie/${id}`).then((res: any) => {
             console.log(res.data);
 
             res.data.release_date = formatLocalDate(
@@ -53,7 +64,7 @@ function MovieDetails({ children }: MovieDetailsProps) {
 
     const getMovieCredits = async () => {
         await api
-            .get("/movie/508943/credits?language=pt-BR")
+            .get(`/movie/${id}/credits`)
             .then((res: any) => {
                 console.log(res.data);
                 const itemCast = [];
@@ -68,7 +79,7 @@ function MovieDetails({ children }: MovieDetailsProps) {
 
     const getMovieTrailer = async () => {
         await api
-            .get("/movie/508943/videos?language=pt-BR")
+            .get(`/movie/${id}/videos`)
             .then((res: any) => {
                 console.log("trailes");
                 console.log(res.data.results);

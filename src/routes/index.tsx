@@ -10,9 +10,9 @@ const Routes: React.FC = () => {
         <BrowserRouter>
             <Switch>
                 <Route exact path="/" component={Main} />
-                <Route path="/favorites" component={Favorites} />
-                <Route path="/movie" component={Search} />
                 <Route path="/movie/:id" component={MovieDetails} />
+                <Route path="/movie" component={Search} />
+                <Route path="/favorites" component={Favorites} />
             </Switch>
         </BrowserRouter>
     );
