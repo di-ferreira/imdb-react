@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Container, RateMovie, FavoriteIcon } from "./styles";
-import { useState } from "react";
 
 export interface MovieResultProps {
     id: number;
@@ -24,14 +24,14 @@ function MovieResult({
         favorite ? favorite : false
     );
 
-    const favoritingMovie = () => {
+    const addMovieToList = () => {
         setFavoriteMovie(!favoriteMovie);
     };
 
     return (
         <Container>
             <RateMovie rate={rate}>{rate}</RateMovie>
-            <FavoriteIcon onClick={(): void => favoritingMovie()}>
+            <FavoriteIcon onClick={(): void => addMovieToList()}>
                 {favoriteMovie ? <FaHeart /> : <FaRegHeart />}
             </FavoriteIcon>
             <Link to={`/movie/${id}`}>

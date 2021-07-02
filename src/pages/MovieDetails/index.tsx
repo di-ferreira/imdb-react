@@ -29,17 +29,18 @@ import {
     MovieTrailer,
     MoviesContainers,
 } from "./styles";
+import { MovieResultProps } from "../../components/MovieResult";
 
 interface MovieDetailsProps {
     children?: ReactNode;
 }
 
-interface IdParam{
-    id:string;
+interface IdParam {
+    id: string;
 }
 
 function MovieDetails({ children }: MovieDetailsProps) {
-        //captura id do filme
+    //captura id do filme
     const dataParam = useParams<IdParam>();
     const id = dataParam.id;
 
@@ -47,7 +48,7 @@ function MovieDetails({ children }: MovieDetailsProps) {
     const [movieGenres, setMovieGenres] = useState<any>([]);
     const [movieCast, setMovieCast] = useState<any>([]);
     const [movieTrailer, setMovieTrailer] = useState<any>([]);
-
+    const [favorite, setFavorite] = useState(false);
 
     const getMovieDetails = async () => {
         await api.get(`/movie/${id}`).then((res: any) => {
@@ -63,28 +64,52 @@ function MovieDetails({ children }: MovieDetailsProps) {
     };
 
     const getMovieCredits = async () => {
-        await api
-            .get(`/movie/${id}/credits`)
-            .then((res: any) => {
-                console.log(res.data);
-                const itemCast = [];
+        await api.get(`/movie/${id}/credits`).then((res: any) => {
+            console.log(res.data);
+            const itemCast = [];
 
-                for (let i = 0; i < 5; i++) {
-                    itemCast.push(res.data.cast[i]);
-                }
+            for (let i = 0; i < 5; i++) {
+                itemCast.push(res.data.cast[i]);
+            }
 
-                setMovieCast(itemCast);
-            });
+            setMovieCast(itemCast);
+        });
     };
 
     const getMovieTrailer = async () => {
-        await api
-            .get(`/movie/${id}/videos`)
-            .then((res: any) => {
-                console.log("trailes");
-                console.log(res.data.results);
-                setMovieTrailer(res.data.results);
-            });
+        await api.get(`/movie/${id}/videos`).then((res: any) => {
+            console.log("trailes");
+            console.log(res.data.results);
+            setMovieTrailer(res.data.results);
+        });
+    };
+
+    const favoritingMovie = () => {
+        setFavorite(!favorite);
+        const movieData: MovieResultProps = {
+            id: parseInt(id),
+            rate: movieDetails.vote_average,
+            title: movieDetails.title,
+            url: movieDetails.poster_path,
+            favorite: true,
+            release_date: movieDetails.release_date,
+        };
+
+        if (!favorite) {
+            if (localStorage.hasOwnProperty("@MOVIES")) {
+                const list = localStorage.getItem("@MOVIES");
+
+                let localData: any[] = list !== null ? JSON.parse(list) : [];
+
+                localData.push(movieData);
+                localStorage.setItem("@MOVIES", JSON.stringify(localData));
+            } else {
+                let localData: any[] = [];
+
+                localData.push(movieData);
+                localStorage.setItem("@MOVIES", JSON.stringify(localData));
+            }
+        }
     };
 
     useEffect(() => {
@@ -134,10 +159,9 @@ function MovieDetails({ children }: MovieDetailsProps) {
                             </MovieProductionInfo>
                         </MovieInformation>
                         <MovieLike>
-                            <ButtonLike>
+                            <ButtonLike onClick={() => favoritingMovie()}>
                                 Favorito
-                                <FaHeart />
-                                <FaRegHeart />
+                                {favorite ? <FaHeart /> : <FaRegHeart />}
                             </ButtonLike>
                             <ButtonShare>
                                 Compartilhar <FaShareAlt />

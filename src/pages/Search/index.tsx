@@ -83,10 +83,10 @@ function Search({ children }: SearchProps) {
             .then(
                 async (res: any) =>
                     await res.data.results.map((m: any) => {
-                        m.release_date = formatLocalDate(
+                        /*  m.release_date = formatLocalDate(
                             m.release_date,
                             "yyyy"
-                        );
+                        ); */
 
                         setPagination({
                             page: res.data.page,
