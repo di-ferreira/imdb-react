@@ -26,7 +26,12 @@ function Main({ children }: MainProps) {
         });
     };
 
+    const createStorage = () => {
+        localStorage.setItem("@MOVIES", JSON.stringify([]));
+    };
+
     useEffect(() => {
+        createStorage();
         getPopularMovie();
         getPopularTV();
     }, []);

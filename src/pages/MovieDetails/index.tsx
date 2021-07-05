@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ReactNode, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -29,7 +30,6 @@ import {
     MovieTrailer,
     MoviesContainers,
 } from "./styles";
-import { MovieResultProps } from "../../components/MovieResult";
 
 interface MovieDetailsProps {
     children?: ReactNode;
@@ -37,6 +37,10 @@ interface MovieDetailsProps {
 
 interface IdParam {
     id: string;
+}
+
+interface ILocalMovie {
+    id: number;
 }
 
 function MovieDetails({ children }: MovieDetailsProps) {
@@ -52,8 +56,6 @@ function MovieDetails({ children }: MovieDetailsProps) {
 
     const getMovieDetails = async () => {
         await api.get(`/movie/${id}`).then((res: any) => {
-            console.log(res.data);
-
             res.data.release_date = formatLocalDate(
                 res.data.release_date,
                 "yyyy"
@@ -65,7 +67,6 @@ function MovieDetails({ children }: MovieDetailsProps) {
 
     const getMovieCredits = async () => {
         await api.get(`/movie/${id}/credits`).then((res: any) => {
-            console.log(res.data);
             const itemCast = [];
 
             for (let i = 0; i < 5; i++) {
@@ -78,41 +79,96 @@ function MovieDetails({ children }: MovieDetailsProps) {
 
     const getMovieTrailer = async () => {
         await api.get(`/movie/${id}/videos`).then((res: any) => {
-            console.log("trailes");
-            console.log(res.data.results);
             setMovieTrailer(res.data.results);
         });
     };
 
     const favoritingMovie = () => {
-        setFavorite(!favorite);
-        const movieData: MovieResultProps = {
+        const movieData: ILocalMovie = {
             id: parseInt(id),
-            rate: movieDetails.vote_average,
-            title: movieDetails.title,
-            url: movieDetails.poster_path,
-            favorite: true,
-            release_date: movieDetails.release_date,
         };
 
         if (!favorite) {
-            if (localStorage.hasOwnProperty("@MOVIES")) {
-                const list = localStorage.getItem("@MOVIES");
+            addFavorite(movieData);
+            setFavorite(true);
+        } else {
+            setFavorite(false);
+            removeFavorite(movieData.id);
+        }
+    };
 
-                let localData: any[] = list !== null ? JSON.parse(list) : [];
+    //Adiciona filme aos favoritos
+    const addFavorite = (movieData: ILocalMovie) => {
+        if (localStorage.hasOwnProperty("@MOVIES")) {
+            const list = localStorage.getItem("@MOVIES");
 
-                localData.push(movieData);
-                localStorage.setItem("@MOVIES", JSON.stringify(localData));
+            let localData: any[] = list !== null ? JSON.parse(list) : [];
+
+            localData.push(movieData);
+            localStorage.setItem("@MOVIES", JSON.stringify(localData));
+        } else {
+            let localData: any[] = [];
+
+            localData.push(movieData);
+            localStorage.setItem("@MOVIES", JSON.stringify(localData));
+        }
+    };
+
+    //Remove filme dos favoritos
+    const removeFavorite = (id: number) => {
+        const listFavoritesStrign = localStorage.getItem("@MOVIES");
+
+        let listFavorites: ILocalMovie[] =
+            listFavoritesStrign !== null ? JSON.parse(listFavoritesStrign) : [];
+
+        console.log("ID para remoção", id);
+
+        if (listFavorites) {
+            const newList: ILocalMovie[] = listFavorites.filter(
+                (movie: ILocalMovie): ILocalMovie | undefined => {
+                    if (movie.id !== id) {
+                        return movie;
+                    }
+                }
+            );
+
+            console.log("Lista depois de excluido", newList);
+
+            localStorage.setItem("@MOVIES", JSON.stringify(newList));
+        }
+    };
+
+    //busca filme pelo ID no localStorage
+    const findMovieLocal = (id: number) => {
+        const listFavoritesStrign = localStorage.getItem("@MOVIES");
+
+        let listFavorites: ILocalMovie[] =
+            listFavoritesStrign !== null ? JSON.parse(listFavoritesStrign) : [];
+
+        if (listFavorites) {
+            const newList: ILocalMovie[] = listFavorites.filter(
+                (movie: ILocalMovie, id: number): ILocalMovie | undefined => {
+                    if (movie.id !== id) {
+                        return movie;
+                    }
+                }
+            );
+            if (newList.length > 0) {
+                return true;
             } else {
-                let localData: any[] = [];
-
-                localData.push(movieData);
-                localStorage.setItem("@MOVIES", JSON.stringify(localData));
+                return false;
             }
         }
     };
 
     useEffect(() => {
+        const findMovie = findMovieLocal(parseInt(id));
+        if (findMovie) {
+            setFavorite(true);
+        } else {
+            setFavorite(false);
+        }
+
         getMovieCredits();
         getMovieDetails();
         getMovieTrailer();

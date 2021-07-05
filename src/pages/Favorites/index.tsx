@@ -19,21 +19,17 @@ function Favorites({ children }: FavoritesProps) {
             <NavBar />
             <ContainerPage>
                 <ContentPage>
-                    {movieList ? (
-                        movieList.map((mov: any) => (
-                            <MovieResult
-                                key={mov.id}
-                                id={mov.id}
-                                title={mov.title}
-                                url={mov.url}
-                                rate={mov.rate}
-                                favorite={mov.favorite}
-                                release_date={mov.release_date}
-                            />
-                        ))
-                    ) : (
-                        <h1>Não existe filmes favoritos</h1>
-                    )}
+                    {movieList.map((mov: any) => (
+                        <MovieResult
+                            key={mov.id}
+                            id={mov.id}
+                            title={mov.title}
+                            url={mov.url}
+                            rate={mov.rate}
+                            favorite={mov.favorite}
+                            release_date={mov.release_date}
+                        />
+                    ))}
                 </ContentPage>
             </ContainerPage>
             <FooterPage />
