@@ -39,7 +39,7 @@ interface IdParam {
     id: string;
 }
 
-interface ILocalMovie {
+export interface ILocalMovie {
     id: number;
 }
 
@@ -83,6 +83,7 @@ function MovieDetails({ children }: MovieDetailsProps) {
         });
     };
 
+    //Controla os favoritos
     const favoritingMovie = () => {
         const movieData: ILocalMovie = {
             id: parseInt(id),
@@ -121,8 +122,6 @@ function MovieDetails({ children }: MovieDetailsProps) {
         let listFavorites: ILocalMovie[] =
             listFavoritesStrign !== null ? JSON.parse(listFavoritesStrign) : [];
 
-        console.log("ID para remoção", id);
-
         if (listFavorites) {
             const newList: ILocalMovie[] = listFavorites.filter(
                 (movie: ILocalMovie): ILocalMovie | undefined => {
@@ -131,9 +130,6 @@ function MovieDetails({ children }: MovieDetailsProps) {
                     }
                 }
             );
-
-            console.log("Lista depois de excluido", newList);
-
             localStorage.setItem("@MOVIES", JSON.stringify(newList));
         }
     };
@@ -147,12 +143,13 @@ function MovieDetails({ children }: MovieDetailsProps) {
 
         if (listFavorites) {
             const newList: ILocalMovie[] = listFavorites.filter(
-                (movie: ILocalMovie, id: number): ILocalMovie | undefined => {
-                    if (movie.id !== id) {
+                (movie: ILocalMovie): ILocalMovie | undefined => {
+                    if (movie.id === id) {
                         return movie;
                     }
                 }
             );
+
             if (newList.length > 0) {
                 return true;
             } else {

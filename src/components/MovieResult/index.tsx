@@ -1,6 +1,9 @@
-import { useState } from "react";
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { ILocalMovie } from "../../pages/MovieDetails";
 import { Container, RateMovie, FavoriteIcon } from "./styles";
 
 export interface MovieResultProps {
@@ -20,18 +23,96 @@ function MovieResult({
     favorite,
     release_date,
 }: MovieResultProps) {
-    const [favoriteMovie, setFavoriteMovie] = useState<boolean>(
-        favorite ? favorite : false
-    );
+    const [favoriteMovie, setFavoriteMovie] = useState<boolean>(false);
 
-    const addMovieToList = () => {
-        setFavoriteMovie(!favoriteMovie);
+    //Controla os favoritos
+    const favoritingMovie = () => {
+        const movieData: ILocalMovie = {
+            id: id,
+        };
+
+        if (!favoriteMovie) {
+            addFavorite(movieData);
+            setFavoriteMovie(true);
+        } else {
+            setFavoriteMovie(false);
+            removeFavorite(movieData.id);
+        }
     };
+
+    //Adiciona filme aos favoritos
+    const addFavorite = (movieData: ILocalMovie) => {
+        if (localStorage.hasOwnProperty("@MOVIES")) {
+            const list = localStorage.getItem("@MOVIES");
+
+            let localData: any[] = list !== null ? JSON.parse(list) : [];
+
+            localData.push(movieData);
+            localStorage.setItem("@MOVIES", JSON.stringify(localData));
+        } else {
+            let localData: any[] = [];
+
+            localData.push(movieData);
+            localStorage.setItem("@MOVIES", JSON.stringify(localData));
+        }
+    };
+
+    //Remove filme dos favoritos
+    const removeFavorite = (id: number) => {
+        const listFavoritesStrign = localStorage.getItem("@MOVIES");
+
+        let listFavorites: ILocalMovie[] =
+            listFavoritesStrign !== null ? JSON.parse(listFavoritesStrign) : [];
+
+        if (listFavorites) {
+            const newList: ILocalMovie[] = listFavorites.filter(
+                (movie: ILocalMovie): ILocalMovie | undefined => {
+                    if (movie.id !== id) {
+                        return movie;
+                    }
+                }
+            );
+            localStorage.setItem("@MOVIES", JSON.stringify(newList));
+        }
+    };
+
+    //busca filme pelo ID no localStorage
+    const findMovieLocal = (id: number) => {
+        const listFavoritesStrign = localStorage.getItem("@MOVIES");
+
+        let listFavorites: ILocalMovie[] =
+            listFavoritesStrign !== null ? JSON.parse(listFavoritesStrign) : [];
+
+        if (listFavorites) {
+            const newList: ILocalMovie[] = listFavorites.filter(
+                (movie: ILocalMovie): ILocalMovie | undefined => {
+                    if (movie.id === id) {
+                        return movie;
+                    }
+                }
+            );
+
+            if (newList.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    };
+
+    useEffect(() => {
+        const findMovie = findMovieLocal(id);
+        if (findMovie) {
+            setFavoriteMovie(true);
+        } else {
+            setFavoriteMovie(false);
+        }
+    }, []);
 
     return (
         <Container>
             <RateMovie rate={rate}>{rate}</RateMovie>
-            <FavoriteIcon onClick={(): void => addMovieToList()}>
+            <FavoriteIcon onClick={() => favoritingMovie()}>
                 {favoriteMovie ? <FaHeart /> : <FaRegHeart />}
             </FavoriteIcon>
             <Link to={`/movie/${id}`}>

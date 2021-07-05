@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import Poster from "../Poster";
 
@@ -11,7 +10,6 @@ interface DataItem {
 }
 
 interface SliderPostersProps {
-    children?: ReactNode;
     title: string;
     subtitle: string;
     data: DataItem[];
