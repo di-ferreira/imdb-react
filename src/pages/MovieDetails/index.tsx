@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaHeart, FaRegHeart, FaShareAlt } from "react-icons/fa";
 import FooterPage from "../../components/FooterPage";
@@ -30,10 +30,7 @@ import {
     MovieTrailer,
     MoviesContainers,
 } from "./styles";
-
-interface MovieDetailsProps {
-    children?: ReactNode;
-}
+import { MovieResultProps } from "../../components/MovieResult";
 
 interface IdParam {
     id: string;
@@ -43,7 +40,7 @@ export interface ILocalMovie {
     id: number;
 }
 
-function MovieDetails({ children }: MovieDetailsProps) {
+function MovieDetails() {
     //captura id do filme
     const dataParam = useParams<IdParam>();
     const id = dataParam.id;
@@ -60,6 +57,7 @@ function MovieDetails({ children }: MovieDetailsProps) {
                 res.data.release_date,
                 "yyyy"
             );
+            console.log(res.data);
             setMovieGenres(res.data.genres);
             setMovieDetails(res.data);
         });
@@ -83,10 +81,15 @@ function MovieDetails({ children }: MovieDetailsProps) {
         });
     };
 
-    //Controla os favoritos
+    // Controla os favoritos
     const favoritingMovie = () => {
-        const movieData: ILocalMovie = {
-            id: parseInt(id),
+        const movieData: MovieResultProps = {
+            id: movieDetails.id,
+            title: movieDetails.title,
+            url: movieDetails.poster_path,
+            rate: movieDetails.vote_average,
+            favorite: true,
+            release_date: movieDetails.release_date,
         };
 
         if (!favorite) {
@@ -99,7 +102,7 @@ function MovieDetails({ children }: MovieDetailsProps) {
     };
 
     //Adiciona filme aos favoritos
-    const addFavorite = (movieData: ILocalMovie) => {
+    const addFavorite = (movieData: MovieResultProps) => {
         if (localStorage.hasOwnProperty("@MOVIES")) {
             const list = localStorage.getItem("@MOVIES");
 
@@ -119,12 +122,12 @@ function MovieDetails({ children }: MovieDetailsProps) {
     const removeFavorite = (id: number) => {
         const listFavoritesStrign = localStorage.getItem("@MOVIES");
 
-        let listFavorites: ILocalMovie[] =
+        let listFavorites: MovieResultProps[] =
             listFavoritesStrign !== null ? JSON.parse(listFavoritesStrign) : [];
 
         if (listFavorites) {
-            const newList: ILocalMovie[] = listFavorites.filter(
-                (movie: ILocalMovie): ILocalMovie | undefined => {
+            const newList: MovieResultProps[] = listFavorites.filter(
+                (movie: MovieResultProps): MovieResultProps | undefined => {
                     if (movie.id !== id) {
                         return movie;
                     }
@@ -138,12 +141,12 @@ function MovieDetails({ children }: MovieDetailsProps) {
     const findMovieLocal = (id: number) => {
         const listFavoritesStrign = localStorage.getItem("@MOVIES");
 
-        let listFavorites: ILocalMovie[] =
+        let listFavorites: MovieResultProps[] =
             listFavoritesStrign !== null ? JSON.parse(listFavoritesStrign) : [];
 
         if (listFavorites) {
-            const newList: ILocalMovie[] = listFavorites.filter(
-                (movie: ILocalMovie): ILocalMovie | undefined => {
+            const newList: MovieResultProps[] = listFavorites.filter(
+                (movie: MovieResultProps): MovieResultProps | undefined => {
                     if (movie.id === id) {
                         return movie;
                     }
@@ -165,7 +168,6 @@ function MovieDetails({ children }: MovieDetailsProps) {
         } else {
             setFavorite(false);
         }
-
         getMovieCredits();
         getMovieDetails();
         getMovieTrailer();

@@ -45,8 +45,8 @@ function Search({ children }: SearchProps) {
     const [load, setLoad] = useState<boolean>(false);
     const [query, setQuery] = useState<string>("");
     const [error, setError] = useState<boolean>(false);
-    const [currentPage, setCurrentPage] = useState<number>(1);
 
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPage, setTotalPage] = useState<number>(0);
     const [pagination, setPagination] = useState<paginationProps>();
 

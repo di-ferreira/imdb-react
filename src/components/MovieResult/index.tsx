@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { ILocalMovie } from "../../pages/MovieDetails";
 import { Container, RateMovie, FavoriteIcon } from "./styles";
 
 export interface MovieResultProps {
@@ -27,8 +26,13 @@ function MovieResult({
 
     //Controla os favoritos
     const favoritingMovie = () => {
-        const movieData: ILocalMovie = {
-            id: id,
+        const movieData: MovieResultProps = {
+            id,
+            title,
+            url,
+            rate,
+            favorite: true,
+            release_date,
         };
 
         if (!favoriteMovie) {
@@ -41,7 +45,7 @@ function MovieResult({
     };
 
     //Adiciona filme aos favoritos
-    const addFavorite = (movieData: ILocalMovie) => {
+    const addFavorite = (movieData: MovieResultProps) => {
         if (localStorage.hasOwnProperty("@MOVIES")) {
             const list = localStorage.getItem("@MOVIES");
 
@@ -61,12 +65,12 @@ function MovieResult({
     const removeFavorite = (id: number) => {
         const listFavoritesStrign = localStorage.getItem("@MOVIES");
 
-        let listFavorites: ILocalMovie[] =
+        let listFavorites: MovieResultProps[] =
             listFavoritesStrign !== null ? JSON.parse(listFavoritesStrign) : [];
 
         if (listFavorites) {
-            const newList: ILocalMovie[] = listFavorites.filter(
-                (movie: ILocalMovie): ILocalMovie | undefined => {
+            const newList: MovieResultProps[] = listFavorites.filter(
+                (movie: MovieResultProps): MovieResultProps | undefined => {
                     if (movie.id !== id) {
                         return movie;
                     }
@@ -80,12 +84,12 @@ function MovieResult({
     const findMovieLocal = (id: number) => {
         const listFavoritesStrign = localStorage.getItem("@MOVIES");
 
-        let listFavorites: ILocalMovie[] =
+        let listFavorites: MovieResultProps[] =
             listFavoritesStrign !== null ? JSON.parse(listFavoritesStrign) : [];
 
         if (listFavorites) {
-            const newList: ILocalMovie[] = listFavorites.filter(
-                (movie: ILocalMovie): ILocalMovie | undefined => {
+            const newList: MovieResultProps[] = listFavorites.filter(
+                (movie: MovieResultProps): MovieResultProps | undefined => {
                     if (movie.id === id) {
                         return movie;
                     }
