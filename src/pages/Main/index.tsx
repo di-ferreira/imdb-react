@@ -27,7 +27,9 @@ function Main({ children }: MainProps) {
     };
 
     const createStorage = () => {
-        localStorage.setItem("@MOVIES", JSON.stringify([]));
+        if (!localStorage.hasOwnProperty("@MOVIES")) {
+            localStorage.setItem("@MOVIES", JSON.stringify([]));
+        }
     };
 
     useEffect(() => {
