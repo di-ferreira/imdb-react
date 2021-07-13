@@ -46,7 +46,7 @@ function MovieDetails() {
     const id = dataParam.id;
 
     const [movieDetails, setMovieDetails] = useState<any>({});
-    const [movieGenres, setMovieGenres] = useState<any>([]);
+    const [movieGenres, setMovieGenres] = useState<string>("");
     const [movieCast, setMovieCast] = useState<any>([]);
     const [movieTrailer, setMovieTrailer] = useState<any>([]);
     const [favorite, setFavorite] = useState(false);
@@ -57,8 +57,8 @@ function MovieDetails() {
                 res.data.release_date,
                 "yyyy"
             );
-            console.log(res.data);
-            setMovieGenres(res.data.genres);
+            const genres = res.data.genres.map((g: any) => g.name);
+            setMovieGenres(genres.join(", "));
             setMovieDetails(res.data);
         });
     };
@@ -210,7 +210,7 @@ function MovieDetails() {
                             <MovieSinopse>{movieDetails.overview}</MovieSinopse>
                             <MovieProductionInfo>
                                 <strong>Genero: </strong>
-                                {movieGenres.map((g: any) => g.name + ", ")}
+                                {movieGenres}
                             </MovieProductionInfo>
                         </MovieInformation>
                         <MovieLike>
